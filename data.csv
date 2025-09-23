@@ -113,3 +113,5 @@ User ID,Phone Number,First Name,Last Name,District,Taluka,Crop Name,Scan Date,Re
 79,917018181588,Test,Resss,Chennai,Ambattur,pulses,18-09-2025,9882508075,,,,50,option3,0,retailers
 77,918894364834,Test,Test5,Coimbatore,Coimbatore North,paddy,18-09-2025,9882508075,TRAREF00087191102,SUCCESS,payment processed,50,option3,10,retailers
 72,919225064238,shrutika,pobatti,Cuddalore,Cuddalore,"pulses,banana",17-09-2025,9225064238,TRAREF00087160791,SUCCESS,payment processed,50,option1,10,retailers
+678,918778513861,Yogesh,yogesh,Cuddalore,Veppur,maize,21-09-2025,8778513861,TRAREF00087323868,SUCCESS,payment processed,51,option2,10,Crop advisor/Filed agents
+987,918610204483,Suresh,S,Salem,Thalaivasal,maize,21-09-2025,8610204483,TRAREF00087318251,SUCCESS,payment processed,75,option2,10,Crop advisor/Filed agents
