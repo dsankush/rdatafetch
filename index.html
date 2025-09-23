@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" href="https://yt3.googleusercontent.com/ZZ92-X5n9zKj7uOh29BRE8IviBOIrx_q_0aXuUKxiyLd1eDz_qNHqaMKjXfk7mX5Jej9y5zLs1k=s160-c-k-c0x00ffffff-no-rj" type="image/png">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rallis India — Watch & Win Reward Campaign</title>
+  <title>Rallis India — QR Campaign Dashboard</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Inter font (professional) -->
@@ -56,7 +55,7 @@
         <div class="flex items-center gap-3">
           <img src="https://media.licdn.com/dms/image/v2/D560BAQGTPrHsLvBhHw/company-logo_200_200/company-logo_200_200/0/1729673239973/rallis_india_ltd_logo?e=2147483647&v=beta&t=FV3z-gQxavTrtrpIlEQS26CQNH83S3k33GFFR5qyXoE" alt="Rallis India" class="h-10 w-10 rounded-md border border-slate-200 object-contain bg-white" onerror="this.style.display='none'" />
           <div>
-            <h1 class="text-xl md:text-2xl font-semibold tracking-tight">Watch & Win Reward Campaign</h1>
+            <h1 class="text-xl md:text-2xl font-semibold tracking-tight">QR Campaign Dashboard</h1>
             <p class="text-xs muted">Engagement • Conversion • Payouts</p>
           </div>
         </div>
@@ -110,7 +109,7 @@
         </div>
         <div>
           <label class="text-sm muted">Status</label>
-          <div class="flex gap-2 mt-1 flex-nowrap overflow-x-auto">
+          <div class="flex gap-2 mt-1 flex-nowrap">
   		<span class="status-chip active" data-status="All">All</span>
   		<span class="status-chip" data-status="SUCCESS">SUCCESS</span>
   		<span class="status-chip" data-status="FAILED">FAILED</span>
@@ -228,7 +227,7 @@
     // ====== CONFIG ======
     // Default file to read from your repo (same folder as index.html)
     // You can override via URL: index.html?file=reports/myfile.xlsx&sheet=Sheet1
-    const DATA_URL_DEFAULT = 'data.csv';
+    const DATA_URL_DEFAULT = 'data.xlsx';
 
     // ===== Utilities =====
     const norm = (s) => (s==null?"":String(s)).trim();
@@ -409,7 +408,7 @@
       const out = rows.map(r => ({...r, 'Phone Number': fmtPhone(r['Phone Number']), 'Reward Phone Number': fmtPhone(r['Reward Phone Number'])}));
       const ws = XLSX.utils.json_to_sheet(out, { header: CANON }); const range = XLSX.utils.decode_range(ws['!ref']); const phoneCols = ['Phone Number','Reward Phone Number'];
       phoneCols.forEach(colName => { const idx = CANON.indexOf(colName); if (idx >= 0) { for (let R = 1; R <= range.e.r; ++R) { const addr = XLSX.utils.encode_cell({ r: R, c: idx }); if (ws[addr]) ws[addr].t = 's'; } } });
-      const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'Filtered Records'); XLSX.writeFile(wb, 'Tata_Rallis_Reward_Report.xlsx');
+      const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'Filtered Records'); XLSX.writeFile(wb, 'filtered_records.xlsx');
     }
 
     function showToast(msg) {
@@ -511,13 +510,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
