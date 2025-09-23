@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rallis India — QR Campaign Dashboard</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Inter font (professional) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Icons -->
+  <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet">
+  <!-- PapaParse for CSV (kept for compatibility) -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <!-- flatpickr for date range -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <!-- SheetJS for reading Excel AND for Excel download -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <style>
+    :root {
+      --ink: 15 23 42; /* slate-900 */
+      --brand: 37 99 235; /* indigo-600 */
+      --brand-2: 16 185 129; /* emerald-500 */
+    }
+    body { font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
+    .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
+    .muted { color: #64748b; }
+    .btn { display:inline-flex; align-items:center; gap:.5rem; padding:.625rem 1rem; border-radius: 12px; font-weight: 600; }
+    .btn-primary { background: rgb(var(--brand)); color:white; }
+    .btn-primary:hover { filter: brightness(1.05); }
+    .btn-ghost { background: transparent; border: 1px solid #e2e8f0; }
+    .btn-ghost:hover { background:#f8fafc; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; }
+    .gradient-banner { background: radial-gradient(1200px 300px at 10% -10%, rgba(37,99,235,.15), transparent), radial-gradient(900px 250px at 90% -20%, rgba(16,185,129,.15), transparent); }
+    .kpi-ring { position: relative; }
+    .kpi-ring::before { content:''; position:absolute; inset:-2px; border-radius:16px; background: linear-gradient(135deg, rgba(37,99,235,.25), rgba(16,185,129,.25)); z-index:-1; filter: blur(12px); }
+    .shimmer { background: linear-gradient(90deg, #f8fafc 25%, #eef2f7 37%, #f8fafc 63%); background-size: 400% 100%; animation: shimmer 1.25s infinite; }
+    @keyframes shimmer { 0%{background-position:100% 0} 100%{background-position:-100% 0} }
+    .sticky-filters { position: sticky; top: 60px; z-index: 30; }
+    .status-chip { padding: .35rem .6rem; border-radius: 999px; font-size: .75rem; font-weight: 600; border: 1px solid #e2e8f0; cursor: pointer; }
+    .status-chip.active { color: white; background: rgb(var(--brand)); border-color: rgb(var(--brand)); }
+    .table-sticky thead th { position: sticky; top: 0; background: #f8fafc; z-index: 10; }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-50 text-[rgb(var(--ink))]">
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-slate-200">
+    <div class="gradient-banner">
+      <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <img src="https://media.licdn.com/dms/image/v2/D560BAQGTPrHsLvBhHw/company-logo_200_200/company-logo_200_200/0/1729673239973/rallis_india_ltd_logo?e=2147483647&v=beta&t=FV3z-gQxavTrtrpIlEQS26CQNH83S3k33GFFR5qyXoE" alt="Rallis India" class="h-10 w-10 rounded-md border border-slate-200 object-contain bg-white" onerror="this.style.display='none'" />
+          <div>
+            <h1 class="text-xl md:text-2xl font-semibold tracking-tight">QR Campaign Dashboard</h1>
+            <p class="text-xs muted">Engagement • Conversion • Payouts</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="btnReload" class="btn btn-ghost" title="Reload data"><i class="ph ph-arrow-clockwise"></i><span>Reload</span></button>
+          <button id="btnDownload" class="btn btn-primary" title="Download filtered Excel"><i class="ph ph-download-simple"></i><span>Excel</span></button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Source + Quick info -->
+  <section id="sourcebar" class="max-w-7xl mx-auto px-4 mt-4">
+    <div class="card p-4 flex flex-wrap items-center gap-3">
+      <div class="text-sm muted">Source:</div>
+      <code id="srcUrl" class="mono text-xs bg-slate-100 px-2 py-1 rounded">—</code>
+      <div class="text-sm muted ml-auto">Sheet: <span id="sheetName">(auto)</span> • Last loaded: <span id="lastLoaded">—</span></div>
+    </div>
+  </section>
+
+  <!-- Filters -->
+  <section id="filters" class="max-w-7xl mx-auto px-4 mt-4 hidden sticky-filters">
+    <div class="card p-4">
+      <div class="grid lg:grid-cols-7 md:grid-cols-3 grid-cols-1 gap-3">
+        <div class="lg:col-span-2 order-last lg:order-first">
+          <label class="text-sm muted">Search</label>
+          <div class="relative">
+            <i class="ph ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input id="filterSearch" class="w-full mt-1 pl-10 pr-3 py-2 rounded-lg border border-slate-300 bg-white" placeholder="Search name, phone, district, crop…" />
+          </div>
+        </div>
+        <div>
+          <label class="text-sm muted">District</label>
+          <select id="filterDistrict" class="w-full mt-1 px-3 py-2 rounded-lg border border-slate-300 bg-white"></select>
+        </div>
+        <div>
+          <label class="text-sm muted">Taluka</label>
+          <select id="filterTaluka" class="w-full mt-1 px-3 py-2 rounded-lg border border-slate-300 bg-white"></select>
+        </div>
+        <div>
+          <label class="text-sm muted">Crop</label>
+          <select id="filterCrop" class="w-full mt-1 px-3 py-2 rounded-lg border border-slate-300 bg-white"></select>
+        </div>
+        <div>
+          <label class="text-sm muted">Source</label>
+          <select id="filterSource" class="w-full mt-1 px-3 py-2 rounded-lg border border-slate-300 bg-white"></select>
+        </div>
+        <div>
+          <label class="text-sm muted">Scan Date</label>
+          <input id="filterDate" class="w-full mt-1 px-3 py-2 rounded-lg border border-slate-300 bg-white" placeholder="YYYY-MM-DD to YYYY-MM-DD" />
+        </div>
+        <div>
+          <label class="text-sm muted">Status</label>
+          <div class="flex flex-wrap gap-2 mt-1">
+            <span class="status-chip active" data-status="All">All</span>
+            <span class="status-chip" data-status="SUCCESS">SUCCESS</span>
+            <span class="status-chip" data-status="FAILED">FAILED</span>
+            <span class="status-chip" data-status="PENDING">PENDING</span>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4 flex flex-wrap gap-3">
+        <button id="btnReset" class="btn btn-ghost"><i class="ph ph-arrow-counter-clockwise"></i>Reset Filters</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- KPIs -->
+  <section id="kpis" class="max-w-7xl mx-auto px-4 mt-4 hidden">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="card p-5 kpi-ring">
+        <div class="flex items-center gap-3">
+          <div class="h-10 w-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600"><i class="ph ph-qr-code"></i></div>
+          <div>
+            <div class="text-sm muted">Total Scans</div>
+            <div id="kpiScans" class="text-3xl font-semibold mt-1 shimmer" style="min-width:6ch">—</div>
+          </div>
+        </div>
+        <div id="kpiScansSub" class="text-xs muted mt-3">All records</div>
+      </div>
+      <div class="card p-5 kpi-ring">
+        <div class="flex items-center gap-3">
+          <div class="h-10 w-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600"><i class="ph ph-users-three"></i></div>
+          <div>
+            <div class="text-sm muted">Unique Farmers</div>
+            <div id="kpiFarmers" class="text-3xl font-semibold mt-1 shimmer" style="min-width:6ch">—</div>
+          </div>
+        </div>
+        <div class="text-xs muted mt-3">Based on Reward Phone Number</div>
+      </div>
+      <div class="card p-5 kpi-ring">
+        <div class="flex items-center gap-3">
+          <div class="h-10 w-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600"><i class="ph ph-play-circle"></i></div>
+          <div>
+            <div class="text-sm muted">≥50% Watched</div>
+            <div class="flex items-end gap-2 mt-1">
+              <div id="kpiWatch" class="text-3xl font-semibold shimmer" style="min-width:6ch">—</div>
+              <div id="kpiWatchPct" class="muted mb-1">(—%)</div>
+            </div>
+          </div>
+        </div>
+        <div class="text-xs muted mt-3">Video Stats threshold 50</div>
+      </div>
+      <div class="card p-5 kpi-ring">
+        <div class="flex items-center gap-3">
+          <div class="h-10 w-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600"><i class="ph ph-coins"></i></div>
+          <div>
+            <div class="text-sm muted">Cashback Distributed</div>
+            <div id="kpiCashback" class="text-3xl font-semibold mt-1 shimmer" style="min-width:10ch">—</div>
+          </div>
+        </div>
+        <div class="text-xs muted mt-3">Sum of Reward Amount</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Charts -->
+  <section id="charts" class="max-w-7xl mx-auto px-4 mt-4 hidden">
+    <div class="grid lg:grid-cols-3 gap-4">
+      <div class="card p-5">
+        <div class="flex items-center justify-between">
+          <h3 class="font-semibold">Conversion Funnel</h3>
+          <span class="text-xs muted">Scan → ≥50% → SUCCESS</span>
+        </div>
+        <canvas id="chartFunnel" class="mt-4"></canvas>
+      </div>
+      <div class="card p-5">
+        <div class="flex items-center justify-between">
+          <h3 class="font-semibold">Top Districts by SUCCESS</h3>
+          <span id="topDistrictCaption" class="text-xs muted"></span>
+        </div>
+        <canvas id="chartDistrict" class="mt-4"></canvas>
+      </div>
+      <div class="card p-5">
+        <div class="flex items-center justify-between">
+          <h3 class="font-semibold">Channel Effectiveness</h3>
+          <span class="text-xs muted">Scanning Source</span>
+        </div>
+        <canvas id="chartSource" class="mt-4"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- Table -->
+  <section id="tableWrap" class="max-w-7xl mx-auto px-4 mt-4 mb-16 hidden">
+    <div class="card overflow-hidden">
+      <div class="px-5 pt-5 flex items-center justify-between">
+        <h3 class="font-semibold">Records</h3>
+        <div class="text-xs muted">Showing filtered rows (max 1000)</div>
+      </div>
+      <div class="overflow-x-auto max-h-[60vh] table-sticky">
+        <table id="dataTable" class="min-w-full text-sm">
+          <thead class="bg-slate-50 text-slate-600">
+            <tr id="tableHeadRow"></tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+        <div id="emptyState" class="hidden p-8 text-center text-sm muted">No rows match the current filters.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed bottom-4 right-4 hidden">
+    <div class="card px-4 py-3 flex items-center gap-2"><i class="ph ph-info"></i><span id="toastMsg" class="text-sm"></span></div>
+  </div>
+
+  <script>
+    // ====== CONFIG ======
+    // Default file to read from your repo (same folder as index.html)
+    // You can override via URL: index.html?file=reports/myfile.xlsx&sheet=Sheet1
+    const DATA_URL_DEFAULT = 'data.xlsx';
+
+    // ===== Utilities =====
+    const norm = (s) => (s==null?"":String(s)).trim();
+    const toNum = (v) => { if (v==null) return NaN; const n = Number(String(v).replace(/[^0-9.\-]/g, '')); return isNaN(n) ? NaN : n; }
+    const parseDate = (s) => {
+      if (!s) return null; const t = Date.parse(s); if (!isNaN(t)) return new Date(t);
+      const m = String(s).match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})/);
+      if (m) { const [_, d, mo, y] = m; return new Date(Number(y.length===2?('20'+y):y), Number(mo)-1, Number(d)); }
+      return null;
+    }
+    function expandSci(x) {
+      const s = String(x).trim(); const m = s.match(/^(\d+(?:\.\d+)?)[eE]\+?(\d+)$/); if (!m) return s;
+      const coeff = m[1]; const exp = parseInt(m[2], 10); const [intp, frac=''] = coeff.split('.');
+      if (exp <= frac.length) { return intp + frac.slice(0, exp) + (frac.slice(exp) ? '.' + frac.slice(exp) : ''); }
+      else { return intp + frac + '0'.repeat(exp - frac.length); }
+    }
+    function fmtPhone(raw) {
+      if (raw == null) return '';
+      let s0 = String(raw).trim(); if (!s0) return '';
+      if (/e\+/i.test(s0)) s0 = expandSci(s0);
+      let s = s0.replace(/[^0-9+]/g, ''); s = s.replace(/^\+/, ''); if (s.startsWith('00')) s = s.replace(/^00+/, '');
+      if (s.length === 11 && s.startsWith('0')) s = s.slice(1);
+      if (s.startsWith('91') && s.length >= 12) s = '91' + s.slice(-10);
+      if (s.length === 10) return '+91' + s;
+      if (s.length === 12 && s.startsWith('91')) return '+' + s;
+      if (s.length > 10) return '+91' + s.slice(-10);
+      return '+91' + s;
+    }
+
+    // ===== Canonical field mapping =====
+    const CANON = [
+      'User ID','Phone Number','First Name','Last Name','District','Taluka','Crop Name','Scan Date','Reward Phone Number','Transaction Number','Transaction Status','Transaction Notes','Video Stats','Quiz Response','Reward Amount','Scanning Source'
+    ];
+    const FIELD_ALIASES = new Map([
+      ['userid','User ID'], ['id','User ID'],
+      ['phonenumber','Phone Number'], ['phone','Phone Number'], ['mobilenumber','Phone Number'], ['mobile','Phone Number'],
+      ['firstname','First Name'], ['lastname','Last Name'],
+      ['district','District'], ['taluka','Taluka'], ['tehsil','Taluka'],
+      ['cropname','Crop Name'], ['crop','Crop Name'],
+      ['scandate','Scan Date'], ['date','Scan Date'],
+      ['rewardphonenumber','Reward Phone Number'], ['rewardphone','Reward Phone Number'], ['payoutphone','Reward Phone Number'], ['payoutnumber','Reward Phone Number'],
+      ['transactionnumber','Transaction Number'], ['txnnumber','Transaction Number'], ['transactionid','Transaction Number'],
+      ['transactionstatus','Transaction Status'], ['status','Transaction Status'],
+      ['transactionnotes','Transaction Notes'], ['notes','Transaction Notes'],
+      ['videostats','Video Stats'], ['watch','Video Stats'], ['watchpercent','Video Stats'], ['watch%','Video Stats'],
+      ['quizresponse','Quiz Response'], ['quiz','Quiz Response'],
+      ['rewardamount','Reward Amount'], ['amount','Reward Amount'], ['cashback','Reward Amount'],
+      ['scanningsource','Scanning Source'], ['source','Scanning Source']
+    ]);
+    const normalizeKey = (k) => String(k||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+
+    function buildFieldMap(headers) { const map = new Map(); headers.forEach(h => { const key = normalizeKey(h); const canon = FIELD_ALIASES.get(key) || CANON.find(c => normalizeKey(c)===key) || h; map.set(canon, h); }); return map; }
+    function canonicalizeRow(row, fmap) { const out = {}; CANON.forEach(c => { const original = fmap.get(c); out[c] = original ? row[original] : ''; }); out['Phone Number'] = fmtPhone(out['Phone Number']); out['Reward Phone Number'] = fmtPhone(out['Reward Phone Number']); return out; }
+
+    // ===== Global State =====
+    let RAW = [];// canonical rows
+    let FILTERS = { district: 'All', taluka: 'All', crop: 'All', source: 'All', status: 'All', dateFrom: null, dateTo: null, q: '' };
+
+    // ===== DOM =====
+    const filtersEl = document.getElementById('filters');
+    const kpisEl = document.getElementById('kpis');
+    const chartsEl = document.getElementById('charts');
+    const tableWrap = document.getElementById('tableWrap');
+
+    const kpiScans = document.getElementById('kpiScans');
+    const kpiScansSub = document.getElementById('kpiScansSub');
+    const kpiFarmers = document.getElementById('kpiFarmers');
+    const kpiWatch = document.getElementById('kpiWatch');
+    const kpiWatchPct = document.getElementById('kpiWatchPct');
+    const kpiCashback = document.getElementById('kpiCashback');
+
+    const selDistrict = document.getElementById('filterDistrict');
+    const selTaluka = document.getElementById('filterTaluka');
+    const selCrop = document.getElementById('filterCrop');
+    const selSource = document.getElementById('filterSource');
+    const inpDate = document.getElementById('filterDate');
+    const btnReset = document.getElementById('btnReset');
+    const btnDownload = document.getElementById('btnDownload');
+    const btnReload = document.getElementById('btnReload');
+    const srcUrl = document.getElementById('srcUrl');
+    const lastLoaded = document.getElementById('lastLoaded');
+    const sheetNameEl = document.getElementById('sheetName');
+    const filterSearch = document.getElementById('filterSearch');
+    const emptyState = document.getElementById('emptyState');
+
+    const tableHeadRow = document.getElementById('tableHeadRow');
+    const tableBody = document.getElementById('tableBody');
+
+    // Charts
+    let chartFunnel, chartDistrict, chartSource;
+
+    function initDatePicker(min, max) {
+      flatpickr(inpDate, { mode:'range', dateFormat:'Y-m-d', minDate: min||null, maxDate: max||null, onChange: (sel)=>{ if(sel.length===2){ FILTERS.dateFrom=sel[0]; FILTERS.dateTo=sel[1]; render(); } } });
+    }
+
+    function buildSelect(selectEl, values) {
+      selectEl.innerHTML = '';
+      const opts = ['All', ...Array.from(values).filter(v=>v && v!=='' && v!=='null')].sort((a,b)=>a.localeCompare(b));
+      opts.forEach(v => { const opt = document.createElement('option'); opt.value = v; opt.textContent = v; selectEl.appendChild(opt); });
+      selectEl.value = 'All';
+    }
+
+    function matchesSearch(r) {
+      if (!FILTERS.q) return true;
+      const q = FILTERS.q.toLowerCase();
+      const fields = ['First Name','Last Name','Phone Number','Reward Phone Number','District','Taluka','Crop Name','Scanning Source','Transaction Status'];
+      return fields.some(f => String(r[f]||'').toLowerCase().includes(q));
+    }
+
+    function filteredRows() {
+      return RAW.filter(r => {
+        const d = norm(r['District']); const t = norm(r['Taluka']); const c = norm(r['Crop Name']); const s = norm(r['Scanning Source']); const st = norm(r['Transaction Status']).toUpperCase(); const dt = parseDate(r['Scan Date']);
+        if (FILTERS.district !== 'All' && d !== FILTERS.district) return false;
+        if (FILTERS.taluka !== 'All' && t !== FILTERS.taluka) return false;
+        if (FILTERS.crop !== 'All' && !c.split(/[,;|]/).map(x=>norm(x)).includes(FILTERS.crop)) return false;
+        if (FILTERS.source !== 'All' && s !== FILTERS.source) return false;
+        if (FILTERS.status !== 'All' && st !== FILTERS.status.toUpperCase()) return false;
+        if (FILTERS.dateFrom && FILTERS.dateTo) { if (!dt || dt < FILTERS.dateFrom || dt > FILTERS.dateTo) return false; }
+        if (!matchesSearch(r)) return false;
+        return true;
+      });
+    }
+
+    function fmtINR(n) { if (isNaN(n)) return '—'; return new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(n); }
+
+    function computeKpis(rows) {
+      const scans = rows.length;
+      const farmers = new Set(rows.map(r => fmtPhone(r['Reward Phone Number'])));
+      const watch50 = rows.filter(r => toNum(r['Video Stats']) >= 50).length;
+      const cashback = rows.reduce((sum, r) => sum + (toNum(r['Reward Amount']) || 0), 0);
+      return { scans, farmers: farmers.size, watch50, cashback, watchPct: scans? Math.round((watch50/scans)*100):0 };
+    }
+
+    function rankDistrictsBySuccess(rows, topN=8) {
+      const map = new Map(); rows.forEach(r => { if (norm(r['Transaction Status']).toUpperCase()==='SUCCESS') { const d = norm(r['District'])||'—'; map.set(d,(map.get(d)||0)+1); } });
+      const arr = Array.from(map.entries()).sort((a,b)=>b[1]-a[1]).slice(0, topN);
+      return { labels: arr.map(x=>x[0]), values: arr.map(x=>x[1]) };
+    }
+
+    function sourceBreakdown(rows) {
+      const map = new Map(); rows.forEach(r => { const s = norm(r['Scanning Source'])||'—'; map.set(s,(map.get(s)||0)+1); });
+      const labels = Array.from(map.keys()); const values = labels.map(k=>map.get(k)); return { labels, values };
+    }
+
+    function funnelData(rows) { const total = rows.length; const watched = rows.filter(r => toNum(r['Video Stats'])>=50).length; const success = rows.filter(r => norm(r['Transaction Status']).toUpperCase()==='SUCCESS').length; return { labels: ['Scans','≥50% Watched','SUCCESS'], values: [total, watched, success] }; }
+
+    function createChart(ctx, type, data, options={}) { return new Chart(ctx, { type, data, options }); }
+    function destroyIf(chart) { if (chart) chart.destroy(); }
+
+    function renderCharts(rows) {
+      const f = funnelData(rows); const d = rankDistrictsBySuccess(rows); const s = sourceBreakdown(rows);
+      destroyIf(chartFunnel); chartFunnel = createChart(document.getElementById('chartFunnel'), 'bar', { labels: f.labels, datasets: [{ label: 'Count', data: f.values }] }, { responsive:true, plugins:{legend:{display:false}}, scales:{ y:{ beginAtZero:true } } });
+      destroyIf(chartDistrict); chartDistrict = createChart(document.getElementById('chartDistrict'), 'bar', { labels: d.labels, datasets: [{ label: 'SUCCESS', data: d.values }] }, { responsive:true, plugins:{legend:{display:false}}, indexAxis:'y', scales:{ x:{ beginAtZero:true } } });
+      destroyIf(chartSource); chartSource = createChart(document.getElementById('chartSource'), 'doughnut', { labels: s.labels, datasets: [{ data: s.values }] }, { responsive:true });
+    }
+
+    function renderTable(rows) {
+      const headers = CANON; tableHeadRow.innerHTML = ''; headers.forEach(h => { const th = document.createElement('th'); th.className='px-4 py-3 text-left font-medium'; th.textContent = h; tableHeadRow.appendChild(th); });
+      tableBody.innerHTML = ''; const frag = document.createDocumentFragment();
+      rows.slice(0,1000).forEach(r => { const tr = document.createElement('tr'); tr.className = 'border-t border-slate-100 hover:bg-slate-50'; headers.forEach(h => { const td = document.createElement('td'); td.className='px-4 py-2 whitespace-nowrap'; let val = r[h] ?? ''; if (h==='Phone Number' || h==='Reward Phone Number') { val = fmtPhone(val); td.classList.add('mono'); } td.textContent = val; tr.appendChild(td); }); frag.appendChild(tr); });
+      tableBody.appendChild(frag);
+      emptyState.classList.toggle('hidden', rows.length>0);
+    }
+
+    function renderFiltersOptions(allRows) {
+      buildSelect(selDistrict, new Set(allRows.map(r=>norm(r['District'])))); buildSelect(selTaluka, new Set(allRows.map(r=>norm(r['Taluka']))));
+      const crops = new Set(); allRows.forEach(r => norm(r['Crop Name']).split(/[,;|]/).forEach(c=>{ if(c) crops.add(c.trim()); })); buildSelect(selCrop, crops);
+      buildSelect(selSource, new Set(allRows.map(r=>norm(r['Scanning Source']))));
+      const statuses = new Set(allRows.map(r=>norm(r['Transaction Status']).toUpperCase()));
+      document.querySelectorAll('.status-chip').forEach(chip => {
+        const label = chip.getAttribute('data-status');
+        chip.style.display = (label==='All' || statuses.has(label)) ? '' : 'none';
+      });
+      const dates = allRows.map(r=>parseDate(r['Scan Date'])).filter(Boolean).sort((a,b)=>a-b); initDatePicker(dates[0] || null, dates.at(-1) || null);
+    }
+
+    function downloadExcel(rows) {
+      const out = rows.map(r => ({...r, 'Phone Number': fmtPhone(r['Phone Number']), 'Reward Phone Number': fmtPhone(r['Reward Phone Number'])}));
+      const ws = XLSX.utils.json_to_sheet(out, { header: CANON }); const range = XLSX.utils.decode_range(ws['!ref']); const phoneCols = ['Phone Number','Reward Phone Number'];
+      phoneCols.forEach(colName => { const idx = CANON.indexOf(colName); if (idx >= 0) { for (let R = 1; R <= range.e.r; ++R) { const addr = XLSX.utils.encode_cell({ r: R, c: idx }); if (ws[addr]) ws[addr].t = 's'; } } });
+      const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'Filtered Records'); XLSX.writeFile(wb, 'filtered_records.xlsx');
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast'); const m = document.getElementById('toastMsg'); m.textContent = msg; t.classList.remove('hidden'); setTimeout(()=>t.classList.add('hidden'), 2500);
+    }
+
+    function render() {
+      const rows = filteredRows(); const k = computeKpis(rows);
+      kpiScans.textContent = k.scans.toLocaleString('en-IN'); kpiScansSub.textContent = `${rows.length} rows after filters`;
+      kpiFarmers.textContent = k.farmers.toLocaleString('en-IN'); kpiWatch.textContent = k.watch50.toLocaleString('en-IN'); kpiWatchPct.textContent = `(${k.watchPct}%)`; kpiCashback.textContent = fmtINR(k.cashback);
+      renderCharts(rows); renderTable(rows);
+    }
+
+    function afterLoad(meta) {
+      if (meta && meta.url) { srcUrl.textContent = meta.urlDisplay || meta.url; srcUrl.title = meta.url; }
+      if (meta && meta.sheet) { sheetNameEl.textContent = meta.sheet; }
+      lastLoaded.textContent = new Date().toLocaleString('en-IN');
+      filtersEl.classList.remove('hidden'); kpisEl.classList.remove('hidden'); chartsEl.classList.remove('hidden'); tableWrap.classList.remove('hidden');
+    }
+
+    function getDataUrl() {
+      const params = new URLSearchParams(location.search); const u = params.get('file');
+      const url = (u || DATA_URL_DEFAULT); // cache-bust only when reloading manually
+      return { url, display: u || DATA_URL_DEFAULT, sheet: params.get('sheet') };
+    }
+
+    async function parseCsvText(text) {
+      const parsed = Papa.parse(text, { header: true, skipEmptyLines: true, transformHeader: h => h.trim() });
+      if (!parsed.meta.fields || parsed.meta.fields.length===0) throw new Error('No columns detected');
+      const fmap = buildFieldMap(parsed.meta.fields);
+      RAW = parsed.data.map(r => canonicalizeRow(r, fmap));
+    }
+
+    async function parseExcelArrayBuffer(buf, sheetPref) {
+      const wb = XLSX.read(buf, { type: 'array' });
+      const sheetName = sheetPref || wb.SheetNames[0];
+      const ws = wb.Sheets[sheetName]; if (!ws) throw new Error(`Sheet not found: ${sheetName}`);
+      const rows = XLSX.utils.sheet_to_json(ws, { defval: '', raw: false });
+      const headers = Array.from(rows.reduce((s, r) => { Object.keys(r).forEach(k => s.add(k)); return s; }, new Set()));
+      if (!headers.length) throw new Error('No columns detected');
+      const fmap = buildFieldMap(headers);
+      RAW = rows.map(r => canonicalizeRow(r, fmap));
+      return sheetName;
+    }
+
+    async function loadData() {
+      try {
+        const { url, display, sheet } = getDataUrl();
+        const clean = display.split('?')[0].toLowerCase();
+        let ext = clean.split('.').pop() || 'xlsx';
+
+        // show skeleton state briefly
+        kpisEl.querySelectorAll('#kpiScans,#kpiFarmers,#kpiWatch,#kpiCashback').forEach(el => el.classList.add('shimmer'));
+
+        const resp = await fetch(url, { cache: 'no-store' }); if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+
+        if (ext === 'csv') {
+          const text = await resp.text(); await parseCsvText(text);
+        } else { const buf = await resp.arrayBuffer(); const chosen = await parseExcelArrayBuffer(buf, sheet || undefined); sheetNameEl.textContent = chosen; }
+
+        renderFiltersOptions(RAW); afterLoad({ url: display, urlDisplay: display, sheet: sheetNameEl.textContent }); render();
+        kpisEl.querySelectorAll('#kpiScans,#kpiFarmers,#kpiWatch,#kpiCashback').forEach(el => el.classList.remove('shimmer'));
+      } catch (e) {
+        showToast('Failed to load data: ' + e.message);
+      }
+    }
+
+    // Events
+    btnReload.addEventListener('click', () => { const { url } = getDataUrl(); const bust = `${url}${url.includes('?') ? '&' : '?'}t=${Date.now()}`; fetch(bust).then(r=>r).finally(loadData); loadData(); });
+    btnDownload.addEventListener('click', () => { const rows = filteredRows(); downloadExcel(rows); });
+    selDistrict.addEventListener('change', e => { FILTERS.district = e.target.value; render(); });
+    selTaluka.addEventListener('change', e => { FILTERS.taluka = e.target.value; render(); });
+    selCrop.addEventListener('change', e => { FILTERS.crop = e.target.value; render(); });
+    selSource.addEventListener('change', e => { FILTERS.source = e.target.value; render(); });
+
+    // Status chip toggles
+    document.querySelectorAll('.status-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.status-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        const v = chip.getAttribute('data-status');
+        FILTERS.status = v;
+        render();
+      });
+    });
+
+    // Search debounce
+    let qTimer; filterSearch.addEventListener('input', (e) => { clearTimeout(qTimer); qTimer = setTimeout(()=>{ FILTERS.q = e.target.value; render(); }, 200); });
+
+    document.getElementById('btnReset').addEventListener('click', () => {
+      FILTERS = { district: 'All', taluka: 'All', crop: 'All', source: 'All', status: 'All', dateFrom: null, dateTo: null, q: '' };
+      selDistrict.value = 'All'; selTaluka.value = 'All'; selCrop.value = 'All'; selSource.value = 'All'; filterSearch.value='';
+      document.querySelectorAll('.status-chip').forEach((c,i)=> c.classList.toggle('active', i===0));
+      inpDate._flatpickr && inpDate._flatpickr.clear(); render();
+    });
+
+    // Initial load
+    loadData();
+  </script>
+</body>
+</html>
