@@ -140,3 +140,19 @@ User ID,Phone Number,First Name,Last Name,District,Taluka,Crop Name,Scan Date,Re
 247,919698127133,Viji,P,Namakkal,Namakkal,maize,24-09-2025,,,FAILED,Internal Server Error - Source Down,51,option2,0,Crop advisor/Field agents
 250,919345256865,Jaga,Deesh A,Salem,Thalaivasal,maize,24-09-2025,9345256865,TRAREF00087545873,SUCCESS,payment processed,61,option2,10,retailers
 251,919944278561,Ezhilarasan ,Elumalai ,Kallakurichi,Sankarapuram,paddy,24-09-2025,,,FAILED,Internal Server Error - Source Down,100,option1,0,retailers
+253,918870913196,Gokul kannan,Kannan,Salem,Attur,maize,25-09-2025,8870913196,TRAREF00087573264,SUCCESS,payment processed,51,option1,10,Crop advisor/Field agents
+254,916380097497,Murali,K,Salem,Thalaivasal,maize,25-09-2025,6380097497,TRAREF00087575039,SUCCESS,payment processed,54,option2,10,retailers
+255,919791324647,Ajith ,P,Salem,Thalaivasal,maize,25-09-2025,9791324647,TRAREF00087575419,SUCCESS,payment processed,52,option2,10,retailers
+256,916379470990,Kumaresan ,S,Salem,Thalaivasal,maize,25-09-2025,6379470990,TRAREF00087575774,SUCCESS,payment processed,100,option2,10,retailers
+258,918148393245,Rohit,K,Salem,Thalaivasal,maize,25-09-2025,6380097497,,,already won,51,option2,0,retailers
+259,918015206225,Siva,Praneeth,Salem,Thalaivasal,maize,25-09-2025,,,,,71,option2,0,retailers
+260,919894606225,Raj,Kumar,Salem,Thalaivasal,maize,25-09-2025,9894606225,TRAREF00087592972,SUCCESS,payment processed,59,option2,10,retailers
+261,917373486881,Malar,Kodi,Salem,Thalaivasal,maize,25-09-2025,7373486881,TRAREF00087593219,SUCCESS,payment processed,52,option2,10,retailers
+262,917708406225,Siva,Darshini ,Salem,Thalaivasal,maize,25-09-2025,8973855272,TRAREF00087595555,SUCCESS,payment processed,51,option2,10,retailers
+263,916384697520,Karthika,Karthika akka,Salem,Thalaivasal,maize,25-09-2025,6384697520,TRAREF00087594326,SUCCESS,payment processed,100,option2,10,retailers
+265,919410798147,Ana,Mali,Cuddalore,Panruti,maize,25-09-2025,9410798147,TRAREF00087598160,SUCCESS,payment processed,52,option1,10,Crop advisor/Field agents
+266,919489183225,Raj,Kumar ,Salem,Thalaivasal,maize,25-09-2025,9489183225,TRAREF00087598161,SUCCESS,payment processed,50,option2,10,retailers
+267,918870483123,Ay,What,Salem,Thalaivasal,maize,25-09-2025,7373486881,,,already won,50,option1,0,retailers
+268,918012207193,Ramesh,Babu,Salem,Thalaivasal,maize,25-09-2025,8012207193,TRAREF00087603936,SUCCESS,payment processed,100,option2,10,retailers
+269,919578265999,Raja,Suresh,Salem,Thalaivasal,maize,25-09-2025,8012207193,,,already won,100,option2,0,retailers
+270,918056602913,Mani,Kandan,Perambalur,Veppanthattai,maize,25-09-2025,8056602913,TRAREF00087604912,SUCCESS,payment processed,100,option2,10,retailers
