@@ -156,3 +156,51 @@ User ID,Phone Number,First Name,Last Name,District,Taluka,Crop Name,Scan Date,Re
 268,918012207193,Ramesh,Babu,Salem,Thalaivasal,maize,25-09-2025,8012207193,TRAREF00087603936,SUCCESS,payment processed,100,option2,10,retailers
 269,919578265999,Raja,Suresh,Salem,Thalaivasal,maize,25-09-2025,8012207193,,,already won,100,option2,0,retailers
 270,918056602913,Mani,Kandan,Perambalur,Veppanthattai,maize,25-09-2025,8056602913,TRAREF00087604912,SUCCESS,payment processed,100,option2,10,retailers
+272,917010557814,Ranjith ,Ranjith ,Salem,Attur,maize,26-09-2025,,,FAILED,Internal Server Error - Source Down,53,option1,0,retailers
+275,918523943091,Jaya,Raj,Salem,Thalaivasal,maize,26-09-2025,8523943091,TRAREF00087628346,SUCCESS,payment processed,100,option2,10,retailers
+276,919585762434,Sudha,P,Salem,Thalaivasal,maize,26-09-2025,9585762434,TRAREF00087628221,SUCCESS,payment processed,78,option2,10,retailers
+277,917200667390,Ajith Kumar,Mani,Cuddalore,Cuddalore,maize,26-09-2025,,,FAILED,Internal Server Error - Source Down,53,option2,0,retailers
+279,919445725048,Mani,V,Salem,Thalaivasal,maize,26-09-2025,9445725048,TRAREF00087630547,SUCCESS,payment processed,67,option2,10,retailers
+280,917418804432,Vivek k,Vak,Salem,Thalaivasal,maize,26-09-2025,7418804432,TRAREF00087630791,SUCCESS,payment processed,52,option2,10,retailers
+281,916379695446,Surya,Ramesh,Salem,Thalaivasal,maize,26-09-2025,6379695446,TRAREF00087633562,SUCCESS,payment processed,100,option2,10,retailers
+282,919025046350,Surya,Ramesh,Salem,Thalaivasal,maize,26-09-2025,9025046350,TRAREF00087634066,SUCCESS,payment processed,100,option2,10,retailers
+285,918220761464,Sakthivel,A,Salem,Thalaivasal,maize,26-09-2025,8220761464,TRAREF00087640064,FAILED,Failed.Unable to Proceed|The beneficiary bank cannot process request due to technical issue. Please try again later.,69,option2,0,retailers
+286,918760659870,Raj,Kumar ,Salem,Thalaivasal,maize,26-09-2025,,,FAILED,Internal Server Error - Source Down,51,option2,0,retailers
+287,919952116568,Tamilmani,Tamil,Dharmapuri,Dharmapuri,maize,26-09-2025,9952116568,TRAREF00087650461,SUCCESS,payment processed,100,option2,10,Crop advisor/Field agents
+288,919043672920,Ramesh ,Surya ,Kallakurichi,Chinnasalem,maize,26-09-2025,9043672920,TRAREF00087652061,SUCCESS,payment processed,79,option2,10,retailers
+289,919003449158,Senthil,Kumar,Kallakurichi,Chinnasalem,maize,26-09-2025,9003449158,TRAREF00087652673,SUCCESS,payment processed,53,option2,10,retailers
+291,919360644803,Arthi,K,Tiruvannamalai,Polur,maize,26-09-2025,9360644803,TRAREF00087667725,SUCCESS,payment processed,50,option2,10,Crop advisor/Field agents
+293,918489991685,Pugazhenthi ,K,Tiruvannamalai,Polur,maize,26-09-2025,8489991685,TRAREF00087667983,SUCCESS,payment processed,94,option2,10,Crop advisor/Field agents
+295,917904166816,Pugazh,K,Tiruvannamalai,Polur,maize,26-09-2025,7904166816,TRAREF00087675768,SUCCESS,payment processed,51,option2,10,Crop advisor/Field agents
+297,919786578416,Senthilkumar ,Senthilkumar ,Kallakurichi,Chinnasalem,maize,27-09-2025,9786578416,TRAREF00087685726,SUCCESS,payment processed,100,option2,10,Crop advisor/Field agents
+298,918220659410,Rajesh ,Rajesh ,Kallakurichi,Chinnasalem,maize,27-09-2025,8220659410,TRAREF00087685259,SUCCESS,payment processed,100,option2,10,Crop advisor/Field agents
+299,918778539363,Nyanavel,V,Kallakurichi,Chinnasalem,maize,27-09-2025,8220659410,,,Already Won,60,option2,0,Crop advisor/Field agents
+300,916379031366,M,Nanthu,Salem,Attur,maize,27-09-2025,6379031366,TRAREF00087689426,SUCCESS,payment processed,56,option2,10,retailers
+301,919025239633,Suri,Ya,Perambalur,Veppanthattai,maize,27-09-2025,9025239633,TRAREF00087689908,SUCCESS,payment processed,52,option2,10,retailers
+302,919095073791,Sivakumar,C,Namakkal,Namakkal,maize,27-09-2025,9095073791,TRAREF00087695848,SUCCESS,payment processed,51,option2,10,Crop advisor/Field agents
+303,916382188641,Sundhara,Moorthi,Cuddalore,Veppur,maize,27-09-2025,6382188641,TRAREF00087696085,SUCCESS,payment processed,51,option2,10,Crop advisor/Field agents
+304,916369861323,Kumarasan ,Kumarasan ,Kallakurichi,Ulundurpettai,maize,27-09-2025,6369861323,TRAREF00087696281,SUCCESS,payment processed,100,option2,10,Crop advisor/Field agents
+306,918072909963,M,Chandru,Cuddalore,Veppur,maize,27-09-2025,8072909963,TRAREF00087696271,SUCCESS,payment processed,51,option2,10,Crop advisor/Field agents
+308,917339334259,K,Appu,Cuddalore,Tittakudi,maize,27-09-2025,7339334259,TRAREF00087696562,SUCCESS,payment processed,50,option2,10,Crop advisor/Field agents
+310,918248542756,K,Poovarasan ,Tiruvannamalai,Polur,maize,27-09-2025,8248542756,TRAREF00087696724,SUCCESS,payment processed,60,option2,10,Crop advisor/Field agents
+312,919865566631,kRuppaiya ,Dharmalingam,Cuddalore,Veppur,maize,27-09-2025,9865566631,TRAREF00087697631,SUCCESS,payment processed,68,option2,10,Crop advisor/Field agents
+314,919445415150,Venkata,Chalam ,Kanchipuram,Kancheepuram,"paddy,maize",27-09-2025,,,FAILED,RECORD NOT FOUND,100,option2,0,retailers
+315,918056555177,M,Prabu,Cuddalore,Veppur,maize,27-09-2025,8056555177,TRAREF00087697848,SUCCESS,payment processed,54,option2,10,Crop advisor/Field agents
+316,919095752875,Mani,Kandan,Tiruvannamalai,Kilpennathur,paddy,27-09-2025,,,FAILED,Internal Server Error - Source Down,78,option2,0,Crop advisor/Field agents
+317,919443999907,Pandyan,N,Namakkal,Sendamangalam,banana,27-09-2025,9443999907,TRAREF00087697628,SUCCESS,payment processed,58,option4,10,Crop advisor/Field agents
+318,917904716434,V,Manoj,Viluppuram,Vikravandi,maize,27-09-2025,,,FAILED,Internal Server Error - Source Down,51,option2,0,Crop advisor/Field agents
+319,917502713904,Mari,Mthu,Tiruvannamalai,Tiruvannamalai,maize,27-09-2025,7502713904,TRAREF00087699492,SUCCESS,payment processed,52,option2,10,Crop advisor/Field agents
+321,919489564545,Raj,Raj,Salem,Thalaivasal,maize,27-09-2025,9489564545,TRAREF00087701358,SUCCESS,payment processed,52,option2,10,retailers
+322,918489718267,Suman,P,Perambalur,Veppanthattai,maize,27-09-2025,8489718267,TRAREF00087703399,SUCCESS,payment processed,54,option2,10,retailers
+324,919626050366,Asokan,R,Salem,Thalaivasal,maize,27-09-2025,9626050366,TRAREF00087705820,SUCCESS,payment processed,51,option2,10,retailers
+325,918940041471,Kannan,P,Namakkal,Mohanur,maize,27-09-2025,8940041471,TRAREF00087706454,SUCCESS,payment processed,51,option2,10,Crop advisor/Field agents
+328,917904310812,Adithiya ,P,Kallakurichi,Chinnasalem,maize,27-09-2025,8778930297,TRAREF00087715073,SUCCESS,payment processed,64,option2,10,Crop advisor/Field agents
+329,919092532473,periya,samy,Salem,Attur,maize,28-09-2025,,,,,90,option2,0,Crop advisor/Field agents
+330,919751203237,Sakthi,Vel,Salem,Attur,maize,28-09-2025,9751203237,TRAREF00087722123,SUCCESS,payment processed,52,option2,10,Crop advisor/Field agents
+331,918270726460,Mohan,Raja,Salem,Attur,maize,28-09-2025,8270726460,TRAREF00087722240,SUCCESS,payment processed,54,option2,10,Crop advisor/Field agents
+332,918838961817,Valar,Mathi,Salem,Attur,maize,28-09-2025,8838961817,TRAREF00087722353,SUCCESS,payment processed,51,option2,10,Crop advisor/Field agents
+334,919600600438,Satishkumar,P,Namakkal,Sendamangalam,maize,28-09-2025,9600600438,TRAREF00087722465,SUCCESS,payment processed,52,option2,10,Crop advisor/Field agents
+335,919943376201,Venkatsalam ,Venkatsalam ,Kallakurichi,Chinnasalem,maize,28-09-2025,,,FAILED,Internal Server Error - Source Down,100,option2,0,Crop advisor/Field agents
+336,917893257672,Ananthan ,Ananthan ,Kallakurichi,Chinnasalem,maize,28-09-2025,,,FAILED,Internal Server Error - Source Down,100,option2,0,Crop advisor/Field agents
+337,918825792558,BalaMurugan ,C ,Namakkal,Namakkal,maize,28-09-2025,,,FAILED,RECORD NOT FOUND,51,option2,0,Crop advisor/Field agents
+343,919677937678,Kannan,Krishnasamy,Salem,Gangavalli,maize,28-09-2025,,,FAILED,Internal Server Error - Source Down,78,option2,0,Crop advisor/Field agents
