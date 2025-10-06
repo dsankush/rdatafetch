@@ -255,3 +255,17 @@ User ID,Phone Number,First Name,Last Name,District,Taluka,Crop Name,Scan Date,Re
 403,917826852697,Dhana,Lakshmi,Cuddalore,Panruti,paddy,03-10-2025,7826852697,TRAREF00088008080,SUCCESS,payment processed,80,option2,10,retailers
 404,919524831293,Sakthivel ,Vel,Salem,Attur,"vegetables,other",03-10-2025,9524831293,TRAREF00088016792,SUCCESS,payment processed,71,option2,10,retailers
 406,917639333283,Thiyagarajan,N,Tiruchirappalli,Tiruchirappalli East,paddy,03-10-2025,7639333283,TRAREF00088020887,SUCCESS,payment processed,51,option2,10,retailers
+407,919092208185,Bharathi,M,Karur,Kulithalai,paddy,04-10-2025,9092208185,TRAREF00088047116,SUCCESS,payment processed,72,option2,10,retailers
+408,919514742855,Shalini,S,Tiruchirappalli,Srirangam,paddy,04-10-2025,9514742855,TRAREF00088048099,SUCCESS,payment processed,100,option2,10,retailers
+409,919087060484,Kayas,uthin ,Tiruchirappalli,Tiruchirappalli West,paddy,04-10-2025,9087060484,TRAREF00088165140,SUCCESS,payment processed,54,option2,10,retailers
+411,916385688928,Sriram,M,Salem,Thalaivasal,maize,04-10-2025,6385688928,TRAREF00088057779,SUCCESS,payment processed,51,option2,10,retailers
+412,918608806908,Rajkumar ,C,Karur,Kulithalai,paddy,04-10-2025,9894820722,TRAREF00088069584,SUCCESS,payment processed,56,option2,10,retailers
+413,919842866187,Subramani,V,Dindigul,Vedasandur,banana,04-10-2025,9842866187,TRAREF00088069765,SUCCESS,payment processed,85,option2,10,retailers
+414,918682866187,Subramani,V,Dindigul,Vedasandur,paddy,04-10-2025,8682866187,TRAREF00088070294,SUCCESS,payment processed,63,option2,10,retailers
+415,916383253185,Sarath Kumar,N,Pudukkottai,Viralimalai,paddy,04-10-2025,6383253185,TRAREF00088085574,SUCCESS,payment processed,56,option2,10,retailers
+417,916383177455,A,Devi,Cuddalore,Panruti,paddy,04-10-2025,6383177455,,FAILED,Internal Server Error - Source Down,74,option2,0,retailers
+418,919894359838,Govintharaj ,S,Kallakurichi,Chinnasalem,maize,05-10-2025,9894359838,TRAREF00088140566,SUCCESS,payment processed,100,option2,10,retailers
+419,919789539434,Nataraj,C,Tiruchirappalli,Tiruchirappalli East,paddy,05-10-2025,9789539434,TRAREF00088157431,SUCCESS,payment processed,63,option2,10,retailers
+420,919092167643,Siva,Raj,Dharmapuri,Karimangalam,paddy,05-10-2025,9092167643,TRAREF00088160196,FAILED,Failed.SUSPECTED FRAUD,52,option2,0,retailers
+421,918124702479,Jothivel,Jothivel,Tiruchirappalli,Tiruchirappalli West,paddy,05-10-2025,8124702479,TRAREF00088161195,SUCCESS,payment processed,54,option2,10,retailers
+422,919597969856,Nelson ,Nelson ,Tiruchirappalli,Tiruchirappalli West,paddy,05-10-2025,,,FAILED,RECORD NOT FOUND,52,option2,0,retailers
