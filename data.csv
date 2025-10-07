@@ -269,3 +269,6 @@ User ID,Phone Number,First Name,Last Name,District,Taluka,Crop Name,Scan Date,Re
 420,919092167643,Siva,Raj,Dharmapuri,Karimangalam,paddy,05-10-2025,9092167643,TRAREF00088160196,FAILED,Failed.SUSPECTED FRAUD,52,option2,0,retailers
 421,918124702479,Jothivel,Jothivel,Tiruchirappalli,Tiruchirappalli West,paddy,05-10-2025,8124702479,TRAREF00088161195,SUCCESS,payment processed,54,option2,10,retailers
 422,919597969856,Nelson ,Nelson ,Tiruchirappalli,Tiruchirappalli West,paddy,05-10-2025,,,FAILED,RECORD NOT FOUND,52,option2,0,retailers
+424,919418053034,Test,Testttt,Coimbatore,Coimbatore South,maize,06-10-2025,,,,,53,option3,0,Crop advisor/Field agents
+425,918098255241,Magalengam,S,Namakkal,Rasipuram,maize,06-10-2025,,,,,52,option2,0,Crop advisor/Field agents
+426,919655699036,Senthil Kumar ,Senthil Kumar ,Salem,Attur,maize,06-10-2025,9655699036,TRAREF00088234843,SUCCESS,payment processed,100,option2,10,retailers
