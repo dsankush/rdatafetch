@@ -318,3 +318,14 @@ User ID,Phone Number,First Name,Last Name,District,Taluka,Crop Name,Scan Date,Re
 494,917708339750,Karpuraganesan ,Ganesh ,Tenkasi,Sankarankoil,maize,09-10-2025,7708339750,TRAREF00088461731,SUCCESS,payment processed,53,option2,10,retailers
 495,919487873246,Sugharam ,Ravikannan ,Tenkasi,Sankarankoil,maize,09-10-2025,9487873246,TRAREF00088467793,SUCCESS,payment processed,58,option2,10,retailers
 496,918870323674,Kalai,P,Salem,Attur,paddy,09-10-2025,8870323674,TRAREF00088481939,SUCCESS,payment processed,100,,10,retailers
+499,919360899812,Karuppaiya,karuppaiya,Cuddalore,Tittakudi,maize,10-10-2025,9360899812,TRAREF00088520742,SUCCESS,payment processed,100,option2,10,retailers
+501,919025294697,Sathish,P,Salem,Thalaivasal,maize,10-10-2025,9025294697,TRAREF00088522519,SUCCESS,payment processed,84,option2,10,retailers
+503,919600981242,DHARMARAJ ,Dharmaraj,Cuddalore,Tittakudi,maize,10-10-2025,9600981242,TRAREF00088523381,SUCCESS,payment processed,100,option1,10,retailers
+504,919342142929,Vengadesh,Nandhini ,Virudhunagar,Rajapalayam,maize,10-10-2025,9342142929,TRAREF00088528239,SUCCESS,payment processed,50,option2,10,retailers
+513,919443313639,amuthamani,A,Namakkal,Namakkal,maize,10-10-2025,,,FAILED,RECORD NOT FOUND,55,option2,0,Crop advisor/Filed agents
+515,919843126639,Anantha raman,Anantha raman,Virudhunagar,Sivakasi,maize,10-10-2025,9843126639,TRAREF00088551397,SUCCESS,payment processed,100,option2,10,retailers
+516,919384446426,Chockalingam ,Chockalingam ,Sivaganga,Karaikkudi,maize,10-10-2025,9384446426,TRAREF00088551879,SUCCESS,payment processed,100,option2,10,retailers
+518,918056440978,P,Thanges,Virudhunagar,Srivilliputhur,"paddy,maize",11-10-2025,8056440978,TRAREF00088574707,SUCCESS,payment processed,100,option2,10,retailers
+521,917010964975,Yakesh,R,Salem,Thalaivasal,maize,11-10-2025,8489719102,TRAREF00088575917,SUCCESS,payment processed,86,option2,10,retailers
+522,918148139550,PONNUSAMY,P,Salem,Thalaivasal,maize,11-10-2025,8148139550,TRAREF00088576001,SUCCESS,payment processed,100,option2,10,retailers
+523,919360143994,ASHOK,M,Salem,Thalaivasal,maize,11-10-2025,,,,,100,option2,0,retailers
