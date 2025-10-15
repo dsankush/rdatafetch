@@ -335,3 +335,9 @@ User ID,Phone Number,First Name,Last Name,District,Taluka,Crop Name,Scan Date,Re
 530,919786494634,Alaguvel,Alaguvel ,Perambalur,Kunnam,maize,13-10-2025,9786494634,TRAREF00088677699,SUCCESS,payment processed,52,option2,10,retailers
 531,917867030071,Selvakumar ,Selvakumar ,Perambalur,Kunnam,maize,13-10-2025,7867030071,TRAREF00088679071,SUCCESS,payment processed,50,option2,10,retailers
 532,919578929455,Velmurugan,Velmurugan,Perambalur,Veppanthattai,maize,13-10-2025,9578929455,TRAREF00088679483,SUCCESS,payment processed,51,option2,10,retailers
+533,918148171985,Annadhurai,Annadhurai ,Perambalur,Veppanthattai,maize,14-10-2025,,,,,53,option2,0,retailers
+534,916379943819,Senthilkumar ,Senthilkumar ,Perambalur,Veppanthattai,maize,14-10-2025,6379943819,TRAREF00088686674,SUCCESS,payment processed,51,option2,10,retailers
+535,919787195631,Sandhiya,Murugesan,Salem,Thalaivasal,maize,14-10-2025,9787195631,TRAREF00088690800,SUCCESS,payment processed,67,option2,10,retailers
+539,917539902025,Muralidharan ,S,Krishnagiri,Krishnagiri,maize,14-10-2025,7539902025,TRAREF00088700088,SUCCESS,payment processed,100,option1,10,retailers
+541,919159054348,Vignesh ,Periyannan ,Dharmapuri,Pappireddipatti,maize,14-10-2025,9159054348,TRAREF00088702809,SUCCESS,payment processed,100,option2,10,retailers
+542,919585365646,Banu,Mathi,Tenkasi,Sankarankoil,maize,14-10-2025,,,FAILED,Internal Server Error - Source Down,51,option2,0,retailers
